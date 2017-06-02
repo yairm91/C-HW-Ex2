@@ -10,21 +10,21 @@ namespace Ex02
             ConsoleUtils.Screen.Clear();
             Console.WriteLine("Please enter the maximum number of guess you want - between 4 and 10 and press enter.");
             string numberOfGuessAsString = Console.ReadLine();
-            int numberOfGuesses = ValidateNumberOfGuesses(numberOfGuessAsString);
+            int numberOfGuesses = validateNumberOfGuesses(numberOfGuessAsString);
 
             return numberOfGuesses;
         }
 
-        private static int ValidateNumberOfGuesses(string i_numberOfGuessAsString)
+        private static int validateNumberOfGuesses(string i_NumberOfGuessAsString)
         {
             int numberOfGuesses;
-            bool didParseWork = int.TryParse(i_numberOfGuessAsString, out numberOfGuesses);
+            bool didParseWork = int.TryParse(i_NumberOfGuessAsString, out numberOfGuesses);
 
             while (!didParseWork || numberOfGuesses < 4 || numberOfGuesses > 10)
             {
                 Console.WriteLine("Invalid number of guesses, please try again to enter a valid number and press enter:");
-                i_numberOfGuessAsString = Console.ReadLine();
-                didParseWork = int.TryParse(i_numberOfGuessAsString, out numberOfGuesses);
+                i_NumberOfGuessAsString = Console.ReadLine();
+                didParseWork = int.TryParse(i_NumberOfGuessAsString, out numberOfGuesses);
             }
 
             return numberOfGuesses;
@@ -35,13 +35,13 @@ namespace Ex02
             Console.WriteLine("Please type your next guess (A B C D) or 'Q' to quit");
             string currentGuessAsString = Console.ReadLine();
             currentGuessAsString = currentGuessAsString.Replace(" ", string.Empty).ToUpper();
-            bool isGuessValid = CheckGuessValidaity(currentGuessAsString);
+            bool isGuessValid = checkGuessValidaity(currentGuessAsString);
 
             while (!isGuessValid)
             {
                 Console.WriteLine("This guess is invalid, try again to enter 4 letters between A and H and press enter.");
                 currentGuessAsString = Console.ReadLine();
-                isGuessValid = CheckGuessValidaity(currentGuessAsString);
+                isGuessValid = checkGuessValidaity(currentGuessAsString);
             }
 
             List<char> currentGuess = new List<char>();
@@ -50,20 +50,20 @@ namespace Ex02
             return currentGuess;
         }
 
-        private static bool CheckGuessValidaity(string currentGuessAsString)
+        private static bool checkGuessValidaity(string CurrentGuessAsString)
         {
             bool isGuessValid = true;
 
-            if (currentGuessAsString.Length != Game.k_MaxLengthOfGuessWords)
+            if (CurrentGuessAsString.Length != Game.k_MaxLengthOfGuessWords)
             {
-                if (currentGuessAsString.Length != 1 || currentGuessAsString != Game.k_EndOfGameCharacter.ToString().ToUpper())
+                if (CurrentGuessAsString.Length != 1 || CurrentGuessAsString != Game.k_EndOfGameCharacter.ToString().ToUpper())
                 {
                     isGuessValid = false;
                 }
             }
             else
             {
-                foreach (char characterInGuess in currentGuessAsString.ToUpper().ToCharArray())
+                foreach (char characterInGuess in CurrentGuessAsString.ToUpper().ToCharArray())
                 {
                     if (characterInGuess > 'H' || characterInGuess < 'A')
                     {

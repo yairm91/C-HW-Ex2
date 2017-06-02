@@ -30,14 +30,14 @@ namespace Ex02
             Game myGame = new Game();
             myGame.m_MaxNumberOfTurns = GameInterface.GetNumberOfTurnsFromPlayer();
             myGame.m_GameBoard = new Board(myGame.m_MaxNumberOfTurns);
-            myGame.SetComputerGuess();
-            GameRunner(myGame);
+            myGame.setComputerGuess();
+            gameRunner(myGame);
         }
 
-        internal static string CastCharListToString(List<char> i_characterList)
+        internal static string CastCharListToString(List<char> i_CharacterList)
         {
             StringBuilder stringFromList = new StringBuilder();
-            foreach (char characterInList in i_characterList)
+            foreach (char characterInList in i_CharacterList)
             {
                 stringFromList.Append(characterInList);
             }
@@ -45,7 +45,7 @@ namespace Ex02
             return stringFromList.ToString();
         }
 
-        private static List<char> CreateComputerGuess()
+        private static List<char> createComputerGuess()
         {
             Random randomGenerator = new Random();
             List<char> computerGuess = new List<char>(k_MaxLengthOfGuessWords);
@@ -66,10 +66,10 @@ namespace Ex02
             return computerGuess;
         }
 
-        private static void GameRunner(Game i_myGame)
+        private static void gameRunner(Game i_MyGame)
         {
-            GameInterface.PrintNextTurn(i_myGame.m_GameBoard);
-            while (i_myGame.m_GameInProgress)
+            GameInterface.PrintNextTurn(i_MyGame.m_GameBoard);
+            while (i_MyGame.m_GameInProgress)
             {
                 List<char> currentGuess = GameInterface.GetCurrentGuess();
                 List<char> answerForTheUser = new List<char>();
@@ -80,7 +80,7 @@ namespace Ex02
                 }
                 else
                 {
-                    currentGameState = i_myGame.CheckGuess(currentGuess, out answerForTheUser);
+                    currentGameState = i_MyGame.checkGuess(currentGuess, out answerForTheUser);
                 }
 
                 string answerForTheUserStringFormat = correctAnswerToTheUser(answerForTheUser);
@@ -90,16 +90,16 @@ namespace Ex02
                 switch (currentGameState)
                 {
                     case eGameState.GameWin:
-                        anotherGo = WinTheGame(i_myGame, currentGuess, answerForTheUserStringFormat);
+                        anotherGo = winTheGame(i_MyGame, currentGuess, answerForTheUserStringFormat);
                         break;
                     case eGameState.GameLose:
-                        anotherGo = LoseTheGame(i_myGame, currentGuess, answerForTheUserStringFormat);
+                        anotherGo = loseTheGame(i_MyGame, currentGuess, answerForTheUserStringFormat);
                         break;
                     case eGameState.GameTurn:
-                        AnotherTurn(i_myGame, currentGuess, answerForTheUserStringFormat);
+                        anotherTurn(i_MyGame, currentGuess, answerForTheUserStringFormat);
                         break;
                     case eGameState.GameEnd:
-                        EndTheGame(i_myGame);
+                        endTheGame(i_MyGame);
                         break;
                     default:
                         break;
@@ -114,40 +114,40 @@ namespace Ex02
                     PlayGame();
                 }
 
-                i_myGame.m_CurrentTurnNumber++;
+                i_MyGame.m_CurrentTurnNumber++;
             }
         }
 
-        private static void EndTheGame(Game i_myGame)
+        private static void endTheGame(Game i_MyGame)
         {
             GameInterface.PrintByeMessege();
-            i_myGame.m_GameInProgress = false;
+            i_MyGame.m_GameInProgress = false;
         }
 
-        private static void AnotherTurn(Game i_myGame, List<char> i_CurrentGuess, string i_AnswerForTheUserStringFormat)
+        private static void anotherTurn(Game i_MyGame, List<char> i_CurrentGuess, string i_AnswerForTheUserStringFormat)
         {
-            i_myGame.m_GameBoard.AddNewGuessLine(CastCharListToString(i_CurrentGuess), i_AnswerForTheUserStringFormat);
-            GameInterface.PrintNextTurn(i_myGame.m_GameBoard);
+            i_MyGame.m_GameBoard.AddNewGuessLine(CastCharListToString(i_CurrentGuess), i_AnswerForTheUserStringFormat);
+            GameInterface.PrintNextTurn(i_MyGame.m_GameBoard);
         }
 
-        private static bool LoseTheGame(Game i_myGame, List<char> i_CurrentGuess, string i_AnswerForTheUserStringFormat)
+        private static bool loseTheGame(Game i_MyGame, List<char> i_CurrentGuess, string i_AnswerForTheUserStringFormat)
         {
             bool anotherGo;
-            i_myGame.m_GameBoard.AddNewGuessLine(CastCharListToString(i_CurrentGuess), i_AnswerForTheUserStringFormat);
-            GameInterface.PrintGameLose(i_myGame.m_GameBoard, CastCharListToString(i_myGame.m_ComputerGuess));
+            i_MyGame.m_GameBoard.AddNewGuessLine(CastCharListToString(i_CurrentGuess), i_AnswerForTheUserStringFormat);
+            GameInterface.PrintGameLose(i_MyGame.m_GameBoard, CastCharListToString(i_MyGame.m_ComputerGuess));
             anotherGo = GameInterface.AskIfUserWantsAnotherGo();
-            i_myGame.m_GameInProgress = false;
+            i_MyGame.m_GameInProgress = false;
             Console.WriteLine();
             return anotherGo;
         }
 
-        private static bool WinTheGame(Game i_myGame, List<char> i_CurrentGuess, string i_AnswerForTheUserStringFormat)
+        private static bool winTheGame(Game i_MyGame, List<char> i_CurrentGuess, string i_AnswerForTheUserStringFormat)
         {
             bool anotherGo;
-            i_myGame.m_GameBoard.AddNewGuessLine(CastCharListToString(i_CurrentGuess), i_AnswerForTheUserStringFormat);
-            GameInterface.PrintGameWin(i_myGame.m_GameBoard, i_myGame.m_CurrentTurnNumber);
+            i_MyGame.m_GameBoard.AddNewGuessLine(CastCharListToString(i_CurrentGuess), i_AnswerForTheUserStringFormat);
+            GameInterface.PrintGameWin(i_MyGame.m_GameBoard, i_MyGame.m_CurrentTurnNumber);
             anotherGo = GameInterface.AskIfUserWantsAnotherGo();
-            i_myGame.m_GameInProgress = false;
+            i_MyGame.m_GameInProgress = false;
             Console.WriteLine();
             return anotherGo;
         }
@@ -164,49 +164,49 @@ namespace Ex02
             return answerForTheUserStringFormat;
         }
 
-        private void SetComputerGuess()
+        private void setComputerGuess()
         {
-            List<char> computerGuess = CreateComputerGuess();
+            List<char> computerGuess = createComputerGuess();
             m_ComputerGuess = computerGuess;
         }
 
-        private eGameState CheckGuess(List<char> i_currentGuess, out List<char> io_answerForTheUser)
+        private eGameState checkGuess(List<char> i_CurrentGuess, out List<char> io_AnswerForTheUser)
         {
-            io_answerForTheUser = new List<char>();
+            io_AnswerForTheUser = new List<char>();
 
-            CheckCorrectCharactersCorrectPlaces(i_currentGuess, io_answerForTheUser);
-            CheckCorrectCharacterIncorrectPlaces(i_currentGuess, io_answerForTheUser);
+            checkCorrectCharactersCorrectPlaces(i_CurrentGuess, io_AnswerForTheUser);
+            checkCorrectCharacterIncorrectPlaces(i_CurrentGuess, io_AnswerForTheUser);
 
-            return CheckGameState(io_answerForTheUser);
+            return checkGameState(io_AnswerForTheUser);
         }
 
-        private void CheckCorrectCharacterIncorrectPlaces(List<char> i_currentGuess, List<char> io_answerForTheUser)
+        private void checkCorrectCharacterIncorrectPlaces(List<char> i_CurrentGuess, List<char> io_AnswerForTheUser)
         {
             for (int indexOfCharacterInGuess = 0; indexOfCharacterInGuess < k_MaxLengthOfGuessWords; indexOfCharacterInGuess++)
             {
-                if (m_ComputerGuess.IndexOf(i_currentGuess[indexOfCharacterInGuess]) != k_CharacterNotFoundInGuess
-                    && m_ComputerGuess.IndexOf(i_currentGuess[indexOfCharacterInGuess]) != indexOfCharacterInGuess)
+                if (m_ComputerGuess.IndexOf(i_CurrentGuess[indexOfCharacterInGuess]) != k_CharacterNotFoundInGuess
+                    && m_ComputerGuess.IndexOf(i_CurrentGuess[indexOfCharacterInGuess]) != indexOfCharacterInGuess)
                 {
-                    io_answerForTheUser.Add(k_CorrectCharacterIncorrectPlace);
+                    io_AnswerForTheUser.Add(k_CorrectCharacterIncorrectPlace);
                 }
             }
         }
 
-        private void CheckCorrectCharactersCorrectPlaces(List<char> i_currentGuess, List<char> io_answerForTheUser)
+        private void checkCorrectCharactersCorrectPlaces(List<char> i_CurrentGuess, List<char> io_AnswerForTheUser)
         {
             for (int indexOfCharacterInGuess = 0; indexOfCharacterInGuess < k_MaxLengthOfGuessWords; indexOfCharacterInGuess++)
             {
-                if (i_currentGuess[indexOfCharacterInGuess].Equals(m_ComputerGuess[indexOfCharacterInGuess]))
+                if (i_CurrentGuess[indexOfCharacterInGuess].Equals(m_ComputerGuess[indexOfCharacterInGuess]))
                 {
-                    io_answerForTheUser.Add(k_CorrectCharacterCorrectPlace);
+                    io_AnswerForTheUser.Add(k_CorrectCharacterCorrectPlace);
                 }
             }
         }
 
-        private eGameState CheckGameState(List<char> io_answerForTheUser)
+        private eGameState checkGameState(List<char> io_AnswerForTheUser)
         {
             eGameState gameState = eGameState.GameTurn;
-            string answerFromUserInStringFormat = CastCharListToString(io_answerForTheUser);
+            string answerFromUserInStringFormat = CastCharListToString(io_AnswerForTheUser);
             if (answerFromUserInStringFormat.Equals(k_WinningGuess))
             {
                 gameState = eGameState.GameWin;
