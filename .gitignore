@@ -1,3 +1,4 @@
 obj/
 bin/
 Settings.Stylecop
+Stylecop.Cache
