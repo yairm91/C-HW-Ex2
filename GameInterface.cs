@@ -37,7 +37,7 @@ namespace Ex02
             currentGuessAsString = currentGuessAsString.Replace(" ", string.Empty).ToUpper();
             bool isGuessValid = CheckGuessValidaity(currentGuessAsString);
 
-            while(!isGuessValid)
+            while (!isGuessValid)
             {
                 Console.WriteLine("This guess is invalid, try again to enter 4 letters between A and H and press enter.");
                 currentGuessAsString = Console.ReadLine();
@@ -54,9 +54,9 @@ namespace Ex02
         {
             bool isGuessValid = true;
 
-            if(currentGuessAsString.Length != Game.k_MaxLengthOfGuessWords)
+            if (currentGuessAsString.Length != Game.k_MaxLengthOfGuessWords)
             {
-                if(currentGuessAsString.Length != 1 || currentGuessAsString[0] != Game.k_EndOfGameCharacter)
+                if (currentGuessAsString.Length != 1 || currentGuessAsString != Game.k_EndOfGameCharacter.ToString().ToUpper())
                 {
                     isGuessValid = false;
                 }
@@ -71,7 +71,7 @@ namespace Ex02
                     }
                 }
             }
-            
+
             return isGuessValid;
         }
 
@@ -83,12 +83,13 @@ namespace Ex02
             Console.WriteLine(string.Format("You guessed after {0} steps!", i_NumberOfGuesses));
         }
 
-        internal static void PrintGameLose(Board i_GameBoard)
+        internal static void PrintGameLose(Board i_GameBoard, string i_ComputerGuess)
         {
             ConsoleUtils.Screen.Clear();
             Console.WriteLine("Current board status:");
             i_GameBoard.PrintBoard();
             Console.WriteLine("No more guesses allowed. You Lost.");
+            Console.WriteLine(string.Format("The word was: {0}", i_ComputerGuess));
         }
 
         internal static void PrintNextTurn(Board i_GameBoard)
@@ -102,20 +103,22 @@ namespace Ex02
         {
             Console.WriteLine("Would you like to start a new game? (Y/N)");
             string answerFromUser = Console.ReadLine();
-            checkValidityOfAnswer(answerFromUser);
+            string validAnswerFromUser;
+            checkValidityOfAnswer(answerFromUser, out validAnswerFromUser);
 
-            return answerFromUser.Equals("Y");
+            return validAnswerFromUser.ToUpper().Equals("Y");
         }
 
-        private static void checkValidityOfAnswer(string answerFromUser)
+        private static void checkValidityOfAnswer(string i_AnswerFromUser, out string o_ValidAnswerFromUser)
         {
-            bool isAnswerValid = answerFromUser.Equals("Y") || answerFromUser.Equals("N");
+            o_ValidAnswerFromUser = string.Copy(i_AnswerFromUser);
+            bool isAnswerValid = o_ValidAnswerFromUser.ToUpper().Equals("Y") || o_ValidAnswerFromUser.ToUpper().Equals("N");
 
             while (!isAnswerValid)
             {
                 Console.WriteLine("Answer was Invalid! Please enter again (Y/N).");
-                answerFromUser = Console.ReadLine();
-                isAnswerValid = answerFromUser.Equals("Y") || answerFromUser.Equals("N");
+                o_ValidAnswerFromUser = Console.ReadLine();
+                isAnswerValid = o_ValidAnswerFromUser.ToUpper().Equals("Y") || o_ValidAnswerFromUser.ToUpper().Equals("N");
             }
         }
 
