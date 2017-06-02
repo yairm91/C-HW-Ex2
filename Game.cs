@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 
 namespace Ex02
 {
@@ -13,7 +14,6 @@ namespace Ex02
         internal const int k_MaxLengthOfGuessWords = 4;
         private int m_MaxNumberOfTurns;
         private int m_CurrentTurnNumber;
-        private eGameState m_CurrentGameState;
         private List<char> m_ComputerGuess;
         private Board m_GameBoard;
         private bool m_GameInProgress;
@@ -22,7 +22,6 @@ namespace Ex02
         {
             m_MaxNumberOfTurns = 0;
             m_CurrentTurnNumber = 0;
-            m_CurrentGameState = eGameState.GameTurn;
             m_GameBoard = new Board();
             m_GameInProgress = true;
         }
@@ -32,7 +31,21 @@ namespace Ex02
             Game myGame = new Game();
             myGame.m_MaxNumberOfTurns = GameInterface.GetNumberOfTurnsFromPlayer();
             myGame.SetComputerGuess();
+            // remeber to delete!!!!!!!! 
+            String temp = CastCharListToString(myGame.m_ComputerGuess);
+            Console.WriteLine(temp);
             GameRunner(myGame);
+        }
+
+        internal static string CastCharListToString(List<char> i_characterList)
+        {
+            StringBuilder stringFromList = new StringBuilder();
+            foreach (char characterInList in i_characterList)
+            {
+                stringFromList.Append(characterInList);
+            }
+
+            return stringFromList.ToString();
         }
 
         private static List<char> CreateComputerGuess()
@@ -78,17 +91,17 @@ namespace Ex02
                 switch (currentGameState)
                 {
                     case eGameState.GameWin:
-                        i_myGame.m_GameBoard.AddNewGuessLine(currentGuess.ToString(), answerForTheUser.ToString());
+                        i_myGame.m_GameBoard.AddNewGuessLine(CastCharListToString(currentGuess), CastCharListToString(answerForTheUser));
                         GameInterface.PrintGameWin(i_myGame.m_GameBoard, i_myGame.m_CurrentTurnNumber);
                         anotherGo = GameInterface.AskIfUserWantsAnotherGo();
                         break;
                     case eGameState.GameLose:
-                        i_myGame.m_GameBoard.AddNewGuessLine(currentGuess.ToString(), answerForTheUser.ToString());
+                        i_myGame.m_GameBoard.AddNewGuessLine(CastCharListToString(currentGuess), CastCharListToString(answerForTheUser));
                         GameInterface.PrintGameLose(i_myGame.m_GameBoard);
                         anotherGo = GameInterface.AskIfUserWantsAnotherGo();
                         break;
                     case eGameState.GameTurn:
-                        i_myGame.m_GameBoard.AddNewGuessLine(currentGuess.ToString(), answerForTheUser.ToString());
+                        i_myGame.m_GameBoard.AddNewGuessLine(CastCharListToString(currentGuess), CastCharListToString(answerForTheUser));
                         GameInterface.PrintNextTurn(i_myGame.m_GameBoard);
                         break;
                     case eGameState.GameEnd:
@@ -148,7 +161,8 @@ namespace Ex02
         private eGameState CheckGameState(List<char> io_answerForTheUser)
         {
             eGameState gameState = eGameState.GameTurn;
-            if (io_answerForTheUser.ToString().Equals(k_WinningGuess))
+            string answerFromUserInStringFormat = CastCharListToString(io_answerForTheUser);
+            if (answerFromUserInStringFormat.Equals(k_WinningGuess))
             {
                 gameState = eGameState.GameWin;
             }

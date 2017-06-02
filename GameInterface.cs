@@ -37,7 +37,7 @@ namespace Ex02
             currentGuessAsString = currentGuessAsString.Replace(" ", string.Empty).ToUpper();
             bool isGuessValid = CheckGuessValidaity(currentGuessAsString);
 
-            while(isGuessValid)
+            while(!isGuessValid)
             {
                 Console.WriteLine("This guess is invalid, try again to enter 4 letters between A and H and press enter.");
                 currentGuessAsString = Console.ReadLine();
