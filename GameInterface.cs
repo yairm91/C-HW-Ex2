@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Ex02
 {
-    internal class GameInterface
+    internal static class GameInterface
     {
-        internal int GetNumberOfTurnsFromPlayer()
+        internal static int GetNumberOfTurnsFromPlayer()
         {
             ConsoleUtils.Screen.Clear();
             Console.WriteLine("Please enter the maximum number of guess you want - between 4 and 10 and press enter.");
@@ -15,7 +15,7 @@ namespace Ex02
             return numberOfGuesses;
         }
 
-        private int ValidateNumberOfGuesses(string i_numberOfGuessAsString)
+        private static int ValidateNumberOfGuesses(string i_numberOfGuessAsString)
         {
             int numberOfGuesses;
             bool didParseWork = int.TryParse(i_numberOfGuessAsString, out numberOfGuesses);
@@ -30,11 +30,11 @@ namespace Ex02
             return numberOfGuesses;
         }
 
-        internal List<char> GetCurrentGuess()
+        internal static List<char> GetCurrentGuess()
         {
             Console.WriteLine("Please type your next guess (A B C D) or 'Q' to quit");
             string currentGuessAsString = Console.ReadLine();
-            currentGuessAsString = currentGuessAsString.Replace(" ", string.Empty);
+            currentGuessAsString = currentGuessAsString.Replace(" ", string.Empty).ToUpper();
             bool isGuessValid = CheckGuessValidaity(currentGuessAsString);
 
             while(isGuessValid)
@@ -50,13 +50,13 @@ namespace Ex02
             return currentGuess;
         }
 
-        private bool CheckGuessValidaity(string currentGuessAsString)
+        private static bool CheckGuessValidaity(string currentGuessAsString)
         {
             bool isGuessValid = true;
 
-            if(currentGuessAsString.Length != Game.MaxLengthOfGuessWords)
+            if(currentGuessAsString.Length != Game.k_MaxLengthOfGuessWords)
             {
-                if(currentGuessAsString.Length != 1 || currentGuessAsString[0] != Game.EndOfGameCharacter)
+                if(currentGuessAsString.Length != 1 || currentGuessAsString[0] != Game.k_EndOfGameCharacter)
                 {
                     isGuessValid = false;
                 }
@@ -75,7 +75,7 @@ namespace Ex02
             return isGuessValid;
         }
 
-        internal void PrintGameWin(Board i_GameBoard, int i_NumberOfGuesses)
+        internal static void PrintGameWin(Board i_GameBoard, int i_NumberOfGuesses)
         {
             ConsoleUtils.Screen.Clear();
             Console.WriteLine("Current board status:");
@@ -83,7 +83,7 @@ namespace Ex02
             Console.WriteLine(string.Format("You guessed after {0} steps!", i_NumberOfGuesses));
         }
 
-        internal void PrintGameLose(Board i_GameBoard)
+        internal static void PrintGameLose(Board i_GameBoard)
         {
             ConsoleUtils.Screen.Clear();
             Console.WriteLine("Current board status:");
@@ -91,14 +91,14 @@ namespace Ex02
             Console.WriteLine("No more guesses allowed. You Lost.");
         }
 
-        internal void PrintNextTurn(Board i_GameBoard)
+        internal static void PrintNextTurn(Board i_GameBoard)
         {
             ConsoleUtils.Screen.Clear();
             Console.WriteLine("Current board status:");
             i_GameBoard.PrintBoard();
         }
 
-        internal bool AskIfUserWantsAnotherGo()
+        internal static bool AskIfUserWantsAnotherGo()
         {
             Console.WriteLine("Would you like to start a new game? (Y/N)");
             string answerFromUser = Console.ReadLine();
@@ -107,7 +107,7 @@ namespace Ex02
             return answerFromUser.Equals("Y");
         }
 
-        private void checkValidityOfAnswer(string answerFromUser)
+        private static void checkValidityOfAnswer(string answerFromUser)
         {
             bool isAnswerValid = answerFromUser.Equals("Y") || answerFromUser.Equals("N");
 
@@ -119,7 +119,7 @@ namespace Ex02
             }
         }
 
-        internal void PrintByeMessege()
+        internal static void PrintByeMessege()
         {
             ConsoleUtils.Screen.Clear();
             Console.WriteLine("Thank you for playing. Goodbye!");
